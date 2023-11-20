@@ -35,10 +35,8 @@ const isBot = (door) => {
 
 const gameOver = (status) => {
     if(status === 'win'){
-        
         startButton.innerHTML = 'You win! Play again?';
-    }
-    else{
+    } else {
         startButton.innerHTML = 'Game over! Play again?';
     }
     currentlyPlaying = false;
@@ -46,15 +44,18 @@ const gameOver = (status) => {
 
 const playDoor = (door) => {
     numClosedDoors--;
-    if(numClosedDoors === 0){
+    console.log("Door played, remaining: " + numClosedDoors);
+
+    if(numClosedDoors === 0 && !isBot(door)){
+        console.log("Win condition met");
         gameOver('win');
-    }
-    if(isBot(door) === true){
-        gameOver();
+    } else if (isBot(door)) {
+        console.log("Bot found, game over");
+        gameOver('lose');
     }
 }
 
-const randomChoorDoorGenerator = () => {
+const randomChoreDoorGenerator = () => {
     let choreDoor = Math.floor(Math.random() * numClosedDoors);
     if(choreDoor === 0){
         openDoor1 = botDoorPath;
@@ -107,7 +108,7 @@ const startRound = () => {
     doorImage3.src = closedDoorPath;
     numClosedDoors = 3;
     currentlyPlaying = true;
-    startButton = 'Good Luck!';
-    randomChoorDoorGenerator();
+    startButton.innerHTML = 'Good Luck!';
+    randomChoreDoorGenerator();
 }
 startRound();
